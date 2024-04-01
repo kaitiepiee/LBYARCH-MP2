@@ -3,7 +3,7 @@
 #include <time.h>
 #include <windows.h>
 
-#define N 10000000 // TODO: idk what value we set this too
+#define N 1000// TODO: idk what value we set this too
 #define ITERATIONS 30 // min 30, can be adjusted higher
 
 // Assembly Function
@@ -36,25 +36,35 @@ void printKernelTime(const char *kernel_name, long long total_sec, long long tot
 
 int main() {
     long long int n = N;
-    double A = 0; // scalar value
-    double *array1 = (double*)malloc(n *sizeof(double));
-    double *array2 = (double*)malloc(n *sizeof(double));
-    double *resultASM = (double*)malloc(n *sizeof(double));
-    double *resultC = (double*)malloc(n *sizeof(double));
     struct timespec start_time, end_time; // time measurement
     long long total_sec_c = 0;
     long long total_sec_asm = 0;
     long long total_nanosec_c = 0;
     long long total_nanosec_asm = 0;
-    
 
+    double A = 0; // scalar value
+    double* array1 = (double*)malloc(n* sizeof(double));
+    double* array2 = (double*)malloc(n * sizeof(double));
+    double* resultASM = (double*)malloc(n * sizeof(double));
+    double* resultC = (double*)malloc(n * sizeof(double));
+    
+    // Random values init
     A = ((float)rand()) / RAND_MAX;
     for (int i = 0; i < n; i++) {
-        array1[i] = ((float)rand()) / RAND_MAX;
-        array2[i] = ((float)rand()) / RAND_MAX;
-        resultC[i] = 0;
-        resultASM[i] = 0;
+      array1[i] = ((float)rand()) / RAND_MAX;
+      array2[i] = ((float)rand()) / RAND_MAX;
+      resultC[i] = 0;
+     resultASM[i] = 0;
     }
+
+    //double A = 2.0;
+    //for (int i = 0; i < 3; i++) {
+    //    array1[i] = i % 3 + 1; // Will cycle through 1, 2, 3
+    //    array2[i] = i % 3 + 11; // Will cycle through 11, 12, 13
+    //    resultC[i] = 0.0; // Initialize to 0.0
+    //    resultASM[i] = 0.0; // Initialize to 0.0
+    //}
+
 
     for (int i = 0; i < ITERATIONS; i++) {
         // For C
@@ -66,11 +76,36 @@ int main() {
 
         // For Asm
         timespec_get(&start_time, TIME_UTC); // Get time before executing ASM kernel
-        asm_main(n, A, array1, array2, resultASM); 
+        asm_main(n, A, array1, array2, resultASM);
         timespec_get(&end_time, TIME_UTC); // Get time after executing ASM kernel
         measureTime(&start_time, &end_time, &total_sec_asm, &total_nanosec_asm); // Measure time for ASM kernel
         printf("Iteration #%d Asm Kernel Time: %ld.%09ld seconds \n", i + 1, total_sec_asm, total_nanosec_asm);
     }
+
+    printf("\nSanity Check Answer Key");
+    //printf("A = %.6f\n", A);
+    //printf("X = ");
+    //for (int i = 0; i < N; i++) {
+    //     printf("%.2f ", array1[i]);
+    //}
+    //printf("\n");
+
+    //printf("Y = ");
+    //for (int i = 0; i < N; i++) {
+    //    printf("%.2f ", array2[i]);
+    //}
+    printf("\n");
+    printf("(First 10 elements of Z) C Result:\n");
+    for (int i = 0; i < 10; i++) {
+        printf("%.2f ", resultC[i]);
+    }
+    printf("\n");
+
+    printf("(First 10 elements of Z) ASM Result:\n");
+    for (int i = 0; i < 10; i++) {
+        printf("%.2f ", resultASM[i]);
+    }
+    printf("\n");
 
     // Print average kernel times
     printf("\n");
