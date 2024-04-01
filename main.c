@@ -3,7 +3,7 @@
 #include <time.h>
 #include <windows.h>
 
-#define N 1000// TODO: idk what value we set this too
+#define N 268435456 // 268435456 is 2^28, you can try 2^29 or or 2^30 but its just too slow for me
 #define ITERATIONS 30 // min 30, can be adjusted higher
 
 // Assembly Function
@@ -16,16 +16,16 @@ void daxpy(long long int n, double A, double *X, double *Y, double *Z) {
     }
 }
 
-// Function to measure time
-void measureTime(struct timespec *start, struct timespec *end, long long *total_sec, long long *total_nanosec) {
-    long sec = end->tv_sec - start->tv_sec;
-    long nanosec = end->tv_nsec - start->tv_nsec;
-    if (nanosec < 0) {
-        sec--;
-        nanosec += 1000000000L;
+// Function to measure time 
+void measureTime(struct timespec* start, struct timespec* end, long long* sec, long long* nanosec) {
+    *sec = end->tv_sec - start->tv_sec;
+    *nanosec = end->tv_nsec - start->tv_nsec;
+
+    // Check for negative nanoseconds and adjust if necessary
+    if (*nanosec < 0) {
+        (*sec)--; 
+        *nanosec += 1000000000LL; // 
     }
-    *total_sec += sec;
-    *total_nanosec += nanosec;
 }
 
 // Function to print kernel time
@@ -37,10 +37,8 @@ void printKernelTime(const char *kernel_name, long long total_sec, long long tot
 int main() {
     long long int n = N;
     struct timespec start_time, end_time; // time measurement
-    long long total_sec_c = 0;
-    long long total_sec_asm = 0;
-    long long total_nanosec_c = 0;
-    long long total_nanosec_asm = 0;
+    long long sec_c, nanosec_c;
+    long long sec_asm, nanosec_asm;
 
     double A = 0; // scalar value
     double* array1 = (double*)malloc(n* sizeof(double));
@@ -71,15 +69,15 @@ int main() {
         timespec_get(&start_time, TIME_UTC); // Get time before executing C kernel
         daxpy(n, A, array1, array2, resultC);
         timespec_get(&end_time, TIME_UTC); // Get time after executing C kernel
-        measureTime(&start_time, &end_time, &total_sec_c, &total_nanosec_c); // Measure time for C kernel
-        printf("Iteration #%d C Kernel Time:   %ld.%09ld seconds\n", i + 1, total_sec_c, total_nanosec_c);
+        measureTime(&start_time, &end_time, &sec_c, &nanosec_c); // Measure time for C kernel
+        printf("Iteration #%d C Kernel Time:   %ld.%09ld seconds\n", i + 1, sec_c, nanosec_c);
 
         // For Asm
         timespec_get(&start_time, TIME_UTC); // Get time before executing ASM kernel
         asm_main(n, A, array1, array2, resultASM);
         timespec_get(&end_time, TIME_UTC); // Get time after executing ASM kernel
-        measureTime(&start_time, &end_time, &total_sec_asm, &total_nanosec_asm); // Measure time for ASM kernel
-        printf("Iteration #%d Asm Kernel Time: %ld.%09ld seconds \n", i + 1, total_sec_asm, total_nanosec_asm);
+        measureTime(&start_time, &end_time, &sec_asm, &nanosec_asm); // Measure time for ASM kernel
+        printf("Iteration #%d Asm Kernel Time: %ld.%09ld seconds \n", i + 1, sec_asm, nanosec_asm);
     }
 
     printf("\nSanity Check Answer Key");
@@ -119,10 +117,18 @@ int main() {
         }
     }
 
+
     // Print average kernel times
     printf("\n");
-    printKernelTime("C", total_sec_c, total_nanosec_c);
-    printKernelTime("ASM", total_sec_asm, total_nanosec_asm);
+    printKernelTime("C", sec_c, nanosec_c);
+    printKernelTime("ASM", sec_asm, nanosec_asm);
+
+    // Free allocated memory
+    free(array1);
+    free(array2);
+    free(resultASM);
+    free(resultC);
+
     return 0;
 }
 
