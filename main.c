@@ -107,6 +107,18 @@ int main() {
     }
     printf("\n");
 
+
+    // Compare results if match (IF C == AMS)
+    printf("\nComparison of C and ASM results:\n");
+    for (int i = 0; i < 10; i++) {
+        if (resultC[i] == resultASM[i]) {
+            printf("Element %d: C=%.2f, ASM=%.2f (Match)\n", i, resultC[i], resultASM[i]);
+        }
+        else {
+            printf("Element %d: C=%.2f, ASM=%.2f (Mismatch)\n", i, resultC[i], resultASM[i]);
+        }
+    }
+
     // Print average kernel times
     printf("\n");
     printKernelTime("C", total_sec_c, total_nanosec_c);
