@@ -41,3 +41,6 @@ As proof of the correctness of the output, here is the given example from Canvas
 
 ![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/f0afc536-f904-44a5-a312-75a023494ce2)
 
+And here are the matching values for C and ASM for randomized inputs:
+
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/45f79431-076d-4287-8344-448640ecb396)
