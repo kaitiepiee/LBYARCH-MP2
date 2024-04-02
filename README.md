@@ -25,5 +25,19 @@ y -> 11.0, 12.0, 13.0
 Output: store result in vector Z. Display the result of 1st ten elements of vector Z for all versions of kernel (i.e., C and x86-64).
 
 # Comparative Execution Time & Analysis of the Kernels
+Shown below are the execution times of 30 iterations for the C and x86-64 assembly kernels:
+
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/9c79f686-5c2d-4030-887a-5a4efd5d38cb)
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/1f8e0409-f988-4f2b-b3d7-7802b57c3916)
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/228efa4b-cb4c-454d-bf0c-195ff7d83dd5)
+
+It was observed that for every single iteration, the Asm kernel was faster than the C kernel.
 # Correctness of Code Output (C & x84x64)
+As proof of the correctness of the output, here is the given example from Canvas:
+
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/56a679cf-fdbc-444c-a233-b37ecaedf027)
+
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/ec2ed6cf-a09f-424f-99ab-55a3abbd1044)
+
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/f0afc536-f904-44a5-a312-75a023494ce2)
 
