@@ -78,13 +78,15 @@ Figure 11-12 Line Chart of Time Progression of C and Bar Graph of Average Kernal
 # Correctness of Code Output (C & x84x64)
 * A correctness check was conducted, comparing the output of C and ASM for a given example from Canvas and through randomized inputs. Below is the example given from Canvas:
   
-![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/79103680/d62b48d9-6d95-49ea-9d35-d6fa11313c34)
-* This function is used to initialize the variables for the defined Canvas input.
-  
 ![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/56a679cf-fdbc-444c-a233-b37ecaedf027)
-* This function is used to initialize randomized variables for the input.
 
 ![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/106811041/ec2ed6cf-a09f-424f-99ab-55a3abbd1044)
+* This function is used to initialize the variables for the defined Canvas input.
+  
+![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/79103680/d62b48d9-6d95-49ea-9d35-d6fa11313c34)
+* This function is used to initialize randomized variables for the input.
+
+
 # Debug Mode Correctness
 
 ![image](https://github.com/kaitiepiee/LBYARCH-MP2/assets/79103680/3c2a3b77-6779-4c76-a344-6577bb5ca12b)
